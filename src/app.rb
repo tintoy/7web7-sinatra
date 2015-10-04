@@ -37,10 +37,10 @@ get '/bookmarks/:id' do
 end
 
 # Update a bookmark by Id
-put '/bookmarks:id' do
+put '/bookmarks/:id' do
   id = params[:id]
   bookmark = Bookmark.get(id)
-  unless bookmark is nil do
+  unless bookmark == nil
     bookmark.update(
       params.slice 'url', 'title'
     )
