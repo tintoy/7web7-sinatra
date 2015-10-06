@@ -14,16 +14,6 @@ get '/bookmarks' do
   bookmarks.to_json
 end
 
-# Create a bookmark
-post '/bookmarks' do
-  bookmark = Bookmark.create(
-    params.slice 'url', 'title'
-  )
-
-  # Created
-  [201, "/bookmarks/#{bookmark['id']}"]
-end
-
 # Get a bookmark by Id
 get '/bookmarks/:id' do
   id = params[:id]
@@ -34,6 +24,16 @@ get '/bookmarks/:id' do
   else
     [404, "No bookmark found with Id #{id}"]
   end
+end
+
+# Create a bookmark
+post '/bookmarks' do
+  bookmark = Bookmark.create(
+    params.slice 'url', 'title'
+  )
+
+  # Created
+  [201, "/bookmarks/#{bookmark['id']}"]
 end
 
 # Update a bookmark by Id
@@ -47,6 +47,19 @@ put '/bookmarks/:id' do
 
     content_type :json
     bookmark.to_json
+  else
+    [404, "No bookmark found with Id #{id}"]
+  end
+end
+
+# Delete a bookmark by Id
+delete '/bookmarks/:id' do
+  id = params[:id]
+  bookmark = Bookmark.get(id)
+  unless bookmark == nil
+    bookmark.destroy
+
+    200 # OK
   else
     [404, "No bookmark found with Id #{id}"]
   end

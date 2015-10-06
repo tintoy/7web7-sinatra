@@ -44,7 +44,6 @@ describe 'Bookmarks application' do
     bookmarkByIdUrl = last_response.body
 
     put bookmarkByIdUrl, {
-      :url => initialBookmark[:url], # Shouldn't need to copy this across if it doesn't exist! Fix the Hash.Slice function.
       :title => 'Updated'
     }
     expect(last_response).to be_ok
@@ -52,7 +51,6 @@ describe 'Bookmarks application' do
     get bookmarkByIdUrl
     expect(last_response).to be_ok
     updatedBookmark = JSON.parse(last_response.body)
-    puts updatedBookmark
 
     # Doesn't work if I replace ['url'] with [:url].
     # I'm assuming ':identifier' is some sort of identity-value syntax for use as keys.
